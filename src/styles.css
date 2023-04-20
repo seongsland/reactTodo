@@ -1,0 +1,20 @@
+/*
+main
+*/
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: #f9f9f9;
+}
+
+.todoItem:hover .remove {
+  opacity: 1;
+}
+
+.remove {
+  margin-right: 1rem;
+  color: #e64980;
+  font-weight: 600;
+  opacity: 0;
+}
