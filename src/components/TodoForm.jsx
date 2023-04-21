@@ -1,5 +1,6 @@
 import React from "react";
 const TodoForm = ({ value, onChange, onCreate, onKeyPress }) => {
+  console.log("TodoForm");
   return (
     <div className="todoForm input-group mb-1">
       <input
