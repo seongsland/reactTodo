@@ -34,7 +34,9 @@ const TodoItem = ({ text, checked, id, onToggle, onRemove }) => {
       className="todoItem list-group-item list-group-item-action d-flex align-items-center justify-content-between"
       onClick={() => onToggle(id)}
     >
-      <div className="checkbox col-1">{checked ? CheckFalse : CheckTrue}</div>
+      <div className="checkbox col-1">
+        {checked ? <CheckTrue /> : <CheckFalse />}
+      </div>
 
       <div
         className={
@@ -51,7 +53,7 @@ const TodoItem = ({ text, checked, id, onToggle, onRemove }) => {
           onRemove(id);
         }}
       >
-        <button type="button" class="btn btn-primary btn-sm">
+        <button type="button" class="btn btn-outline-danger btn-sm">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
