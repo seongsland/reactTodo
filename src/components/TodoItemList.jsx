@@ -2,6 +2,7 @@ import React from "react";
 import TodoItem from "./TodoItem";
 
 const TodoItemList = ({ todos, onToggle, onRemove }) => {
+  console.log("TodoitemList");
   return (
     <div className="todoItemList list-group w-auto">
       {todos.map((todo) => {

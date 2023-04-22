@@ -4,7 +4,7 @@ import "./styles.css";
 const App = () => {
   console.log("App loaded");
 
-  return <TodoListFrame title="Todo" />;
+  return <TodoListFrame title="Todo List" />;
 };
 
 export default App;
