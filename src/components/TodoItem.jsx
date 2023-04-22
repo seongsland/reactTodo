@@ -1,5 +1,5 @@
 const TodoItem = ({ text, checked, id, onToggle, onRemove }) => {
-  console.log("TodoItem");
+  //console.log("TodoItem");
 
   const CheckFalse = () => {
     return (

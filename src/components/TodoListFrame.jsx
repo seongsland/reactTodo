@@ -13,7 +13,7 @@ const TodoListFrame = ({ title }) => {
   const [input, setInput] = useState("");
   const [todos, setTodos] = useState([]);
 
-  console.log("TodoListFrame");
+  //console.log("TodoListFrame");
 
   useEffect(() => {
     console.log("localStorage loading..");

@@ -1,5 +1,5 @@
 const TodoAction = ({ leftCount, viewState, onChangeViewState }) => {
-  console.log("TodoAction");
+  //console.log("TodoAction");
   return (
     <div className="w-auto mt-1 d-flex justify-content-between flex-wrap">
       <div className="align-self-center d-none d-sm-block ">
