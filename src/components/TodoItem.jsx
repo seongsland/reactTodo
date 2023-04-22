@@ -36,7 +36,7 @@ const TodoItem = ({ text, checked, id, onToggle, onRemove }) => {
       className="todoItem list-group-item list-group-item-action d-flex align-items-center justify-content-between"
       onClick={() => onToggle(id)}
     >
-      <div className="checkbox col-auto">
+      <div className="checkbox col-auto d-flex align-items-center">
         {checked ? <CheckTrue /> : <CheckFalse />}
       </div>
 
