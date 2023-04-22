@@ -36,22 +36,22 @@ const TodoItem = ({ text, checked, id, onToggle, onRemove }) => {
       className="todoItem list-group-item list-group-item-action d-flex align-items-center justify-content-between"
       onClick={() => onToggle(id)}
     >
-      <div className="checkbox col-1">
+      <div className="checkbox col-auto">
         {checked ? <CheckTrue /> : <CheckFalse />}
       </div>
 
       <div
         className={
-          "todoText col-9 d-flex justify-content-between " +
+          "todoText flex-fill  " +
           (checked ? "text-decoration-line-through" : "")
         }
       >
-        <div className="text-start">{text}</div>
+        <div className="text-start ms-2">{text}</div>
       </div>
-      <div className="col-1">
+      <div className="col-auto">
         <button
           type="button"
-          className="remove btn btn-outline-danger btn-sm"
+          className="remove btn btn-outline-danger btn-sm d-block d-sm-none"
           onClick={(e) => {
             e.stopPropagation();
             onRemove(id);

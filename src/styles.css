@@ -8,13 +8,10 @@ body {
   background: #f9f9f9;
 }
 
-.todoItem:hover .remove {
-  opacity: 1;
+.todoItem {
+  min-height: 49px;
 }
 
-.remove {
-  margin-right: 1rem;
-  color: #e64980;
-  font-weight: 600;
-  opacity: 0;
+.todoItem:hover .remove {
+  display: block !important;
 }

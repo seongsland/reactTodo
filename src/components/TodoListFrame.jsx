@@ -1,51 +1,60 @@
 import { useState, useEffect } from "react";
 import TodoForm from "./TodoForm.jsx";
 import TodoItemList from "./TodoItemList.jsx";
+import TodoAction from "./TodoAction.jsx";
 
 let id = 1;
+let viewState = "all";
+let todoStorage = [];
+let todosJS = null;
+let leftCount = 0;
 
 const TodoListFrame = ({ title }) => {
-  let todosJS = null;
-  try {
-    todosJS = JSON.parse(localStorage.getItem("todoStorage"));
-    id = todosJS.at(-1)["id"] + 1;
-  } catch {
-    console.log("localstorage parsing error");
-    todosJS = null;
-  }
   const [input, setInput] = useState("");
-  const [todos, setTodos] = useState(todosJS || []);
-  const [todoStorage, setTodoStorage] = useState(todosJS || []);
-  const [viewState, setViewState] = useState("all");
+  const [todos, setTodos] = useState([]);
 
   console.log("TodoListFrame");
 
   useEffect(() => {
-    localStorage.setItem("todoStorage", JSON.stringify(todoStorage));
-    changeTodosState();
-  }, [todoStorage]);
-
-  useEffect(() => {
-    changeTodosState();
-  }, [viewState]);
+    console.log("localStorage loading..");
+    try {
+      todosJS = JSON.parse(localStorage.getItem("todoStorage"));
+      id = todosJS.at(-1)["id"] + 1;
+      todoStorage = todosJS || [];
+      changeTodosState();
+      leftCount = todoStorage.filter((obj) => {
+        return !obj.checked;
+      }).length;
+    } catch {
+      console.log("localstorage parsing error");
+    }
+  }, []);
 
   useEffect(() => {
     console.log(todos);
   }, [todos]);
 
+  const changeTodoStorage = () => {
+    localStorage.setItem("todoStorage", JSON.stringify(todoStorage));
+    changeTodosState();
+    leftCount = todoStorage.filter((obj) => {
+      return !obj.checked;
+    }).length;
+  };
+
   const changeTodosState = () => {
     console.log(viewState);
     if (viewState == "all") {
-      setTodos(todoStorage);
+      setTodos([...todoStorage]);
     } else if (viewState == "uncheck") {
       setTodos(
-        todoStorage.filter((obj) => {
+        [...todoStorage].filter((obj) => {
           return !obj.checked;
         })
       );
     } else if (viewState == "check") {
       setTodos(
-        todoStorage.filter((obj) => {
+        [...todoStorage].filter((obj) => {
           return obj.checked;
         })
       );
@@ -64,28 +73,37 @@ const TodoListFrame = ({ title }) => {
 
   const handleCreate = () => {
     setInput("");
-    setTodoStorage([...todoStorage, { id: id++, text: input, checked: false }]);
+    todoStorage.push({ id: id++, text: input, checked: false });
+    changeTodoStorage();
   };
 
   const handleToggle = (id) => {
-    setTodoStorage([
-      ...todoStorage.map((todo) => {
-        if (todo.id === id) todo.checked = !todo.checked;
-        return todo;
-      }),
-    ]);
+    todoStorage.map((todo) => {
+      if (todo.id === id) todo.checked = !todo.checked;
+    });
+    changeTodoStorage();
   };
 
   const handleRemove = (id) => {
-    setTodoStorage([...todoStorage.filter((todo) => todo.id !== id)]);
+    todoStorage = todoStorage.filter((todo) => todo.id !== id);
+    changeTodoStorage();
   };
 
-  const handleChangeViewState = (viewState) => {
-    setViewState(viewState);
+  const handleChangeViewState = (pViewState) => {
+    if (pViewState == "clear") {
+      pViewState = "all";
+      todoStorage = todoStorage.filter((todo) => !todo.checked);
+      changeTodoStorage();
+    }
+
+    if (viewState != pViewState) {
+      viewState = pViewState;
+      changeTodosState();
+    }
   };
 
   return (
-    <div className="todoListTemplate text-center bg-light p-5 rounded mt-3">
+    <div className="todoListTemplate text-center bg-light p-5 rounded">
       <h1 className="h3 mb-3 fw-normal">{title}</h1>
       <TodoForm
         value={input}
@@ -98,27 +116,11 @@ const TodoListFrame = ({ title }) => {
         onToggle={handleToggle}
         onRemove={handleRemove}
       />
-      <div
-        onClick={() => {
-          handleChangeViewState("all");
-        }}
-      >
-        All
-      </div>
-      <div
-        onClick={() => {
-          handleChangeViewState("check");
-        }}
-      >
-        check
-      </div>
-      <div
-        onClick={() => {
-          handleChangeViewState("uncheck");
-        }}
-      >
-        uncheck
-      </div>
+      <TodoAction
+        leftCount={leftCount}
+        viewState={viewState}
+        onChangeViewState={handleChangeViewState}
+      />
     </div>
   );
 };
