@@ -72,9 +72,11 @@ const TodoListFrame = ({ title }) => {
   };
 
   const handleCreate = () => {
-    setInput("");
-    todoStorage.push({ id: id++, text: input, checked: false });
-    changeTodoStorage();
+    if (input) {
+      setInput("");
+      todoStorage.push({ id: id++, text: input, checked: false });
+      changeTodoStorage();
+    }
   };
 
   const handleToggle = (id) => {
